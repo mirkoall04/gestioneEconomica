@@ -7,7 +7,7 @@ import { DashboardSummary } from '../models/dashboard-summary.model';
   providedIn: 'root'
 })
 export class DashboardService {
-  private apiUrl = 'https://9152-2001-b07-ae5-5d6e-d8a7-7828-2873-d068.ngrok-free.app /api/dashboard';
+  private apiUrl = 'https://9152-2001-b07-ae5-5d6e-d8a7-7828-2873-d068.ngrok-free.app/api/dashboard';
 
   constructor(private http: HttpClient) {}
 
