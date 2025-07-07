@@ -1,0 +1,112 @@
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  font-size: 1.8rem;
+  color: #2d3748;
+}
+
+.primary-button {
+  background-color: #3182ce;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.primary-button:hover {
+  background-color: #2b6cb0;
+}
+
+.stats-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.card h4 {
+  margin: 0 0 0.5rem 0;
+  color: #718096;
+  font-size: 0.9rem;
+}
+
+.card p.amount {
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.positive {
+  color: #38a169;
+}
+
+.negative {
+  color: #e53e3e;
+}
+
+.content-panel {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.panel-header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.panel-header h3 {
+  margin: 0;
+  color: #2d3748;
+}
+
+.panel-body {
+  padding: 1.5rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+  color: #718096;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+td .amount.income {
+  color: #38a169;
+}
+
+td .amount.expense {
+  color: #e53e3e;
+}
+
+.category-badge {
+  background-color: #edf2f7;
+  color: #4a5568;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+}

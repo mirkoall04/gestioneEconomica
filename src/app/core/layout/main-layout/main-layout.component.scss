@@ -1,0 +1,94 @@
+:host {
+  display: block;
+  height: 100vh;
+}
+
+.main-container {
+  display: flex;
+  height: 100%;
+}
+
+.sidebar {
+  width: 240px;
+  background-color: #1a202c; /* Colore scuro per la sidebar */
+  color: #a0aec0;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1rem;
+}
+
+.sidebar-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.sidebar-header h3 {
+  color: white;
+  margin-top: 0.5rem;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+}
+
+.sidebar-nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  color: #a0aec0;
+  text-decoration: none;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.sidebar-nav a:hover {
+  background-color: #2d3748;
+  color: white;
+}
+
+.sidebar-nav a.active {
+  background-color: #4a5568;
+  color: white;
+  font-weight: bold;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  border-top: 1px solid #2d3748;
+  padding-top: 1rem;
+}
+
+.sidebar-footer a {
+  display: block;
+  padding: 0.75rem 1rem;
+  color: #a0aec0;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.sidebar-footer a:hover {
+  background-color: #2d3748;
+  color: white;
+}
+
+.content-area {
+  flex-grow: 1;
+  background-color: #f7fafc;
+  padding: 2rem;
+  overflow-y: auto; /* Permette lo scroll solo nell'area del contenuto */
+}
+
+/* Aggiungi qui le icone o usa una libreria come Font Awesome */
+.icon-dashboard, .icon-reports, .icon-settings, .icon-logout {
+  margin-right: 0.75rem;
+  width: 20px;
+}

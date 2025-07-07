@@ -1,0 +1,82 @@
+<div class="page-header">
+  <h1>Dashboard</h1>
+  <!-- Il pulsante ora apre sempre la modale -->
+  <button class="primary-button" (click)="openAddTransactionModal()">
+    Aggiungi Transazione
+  </button>
+</div>
+<!-- Sezione delle Card con le statistiche -->
+@if (summary) {
+  <div class="stats-cards">
+    <div class="card">
+      <h4>Saldo Attuale</h4>
+      <p class="amount" [ngClass]="summary.currentBalance >= 0 ? 'positive' : 'negative'">
+        {{ summary.currentBalance | currency:'EUR' }}
+      </p>
+    </div>
+    <div class="card">
+      <h4>Entrate (Mese)</h4>
+      <p class="amount positive">
+        {{ summary.monthlyIncome | currency:'EUR' }}
+      </p>
+    </div>
+    <div class="card">
+      <h4>Uscite (Mese)</h4>
+      <p class="amount negative">
+        {{ summary.monthlyExpenses | currency:'EUR' }}
+      </p>
+    </div>
+    <div class="card">
+      <h4>Risparmio (Mese)</h4>
+      <p class="amount" [ngClass]="summary.savingsPercentage >= 0 ? 'positive' : 'negative'">
+        {{ summary.savingsPercentage }}%
+      </p>
+    </div>
+  </div>
+} @else {
+  <!-- Mostra un loader o uno scheletro mentre i dati caricano -->
+  <p>Caricamento dati...</p>
+}
+
+
+@if (showAddTransactionForm) {
+  <app-add-transaction 
+    (transactionAdded)="onTransactionAdded()"
+    (close)="closeAddTransactionModal()">
+  </app-add-transaction>
+}
+<!-- Sezione della tabella delle transazioni -->
+<div class="content-panel">
+  <div class="panel-header">
+    <h3>Ultime Transazioni</h3>
+  </div>
+  <div class="panel-body">
+    <table>
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Descrizione</th>
+          <th>Categoria</th>
+          <th>Importo</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (tx of transactions; track tx.id) {
+          <tr [ngClass]="tx.type === 'ENTRATA' ? 'income' : 'expense'">
+            <td>{{ tx.date | date:'dd/MM/yyyy' }}</td>
+            <td>{{ tx.description }}</td>
+            <td>
+              <span class="category-badge">{{ tx.category.name }}</span>
+            </td>
+            <td class="amount">{{ tx.amount | currency:'EUR' }}</td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="4">Nessuna transazione trovata.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+    <!-- Qui andrà la paginazione in futuro -->
+  </div>
+</div>

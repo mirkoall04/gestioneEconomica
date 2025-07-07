@@ -1,0 +1,23 @@
+<div class="form-container">
+<h2>Registrati</h2>
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+<div class="form-group">
+<label for="username">Username</label>
+<input type="text" id="username" formControlName="username">
+</div>
+<div class="form-group">
+<label for="email">Email</label>
+<input type="email" id="email" formControlName="email">
+</div>
+<div class="form-group">
+<label for="password">Password (min. 8 caratteri)</label>
+<input type="password" id="password" formControlName="password">
+</div>
+@if (errorMessage) {
+  <p class="error-message">{{ errorMessage }}</p>
+}
+
+<button type="submit" [disabled]="registerForm.invalid">Registrati</button>
+</form>
+<p>Hai già un account? <a routerLink="/login">Accedi</a></p>
+</div>

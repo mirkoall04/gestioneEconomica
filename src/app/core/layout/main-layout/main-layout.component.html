@@ -1,0 +1,22 @@
+<div class="main-container">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h3>Finanza Personale</h3>
+    </div>
+    <nav class="sidebar-nav">
+      <ul>
+        <li><a routerLink="/app/dashboard" routerLinkActive="active"><i class="icon-dashboard"></i> Dashboard</a></li>
+        <li><a routerLink="/app/categories" routerLinkActive="active"><i class="icon-categories"></i> Categorie</a></li> <!-- NUOVA RIGA -->
+        <li><a routerLink="/app/reports" routerLinkActive="active"><i class="icon-reports"></i> Report</a></li>
+      </ul>
+    </nav>
+    <div class="sidebar-footer">
+       <a routerLink="/app/settings" routerLinkActive="active"><i class="icon-settings"></i> Impostazioni</a>
+       <a (click)="logout()"><i class="icon-logout"></i> Logout</a>
+    </div>
+  </aside>
+
+  <main class="content-area">
+    <router-outlet></router-outlet>
+  </main>
+</div>

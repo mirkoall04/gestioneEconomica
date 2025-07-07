@@ -1,0 +1,44 @@
+<div class="page-header">
+  <h1>Gestione Categorie</h1>
+</div>
+
+<div class="layout-container">
+  <!-- Colonna sinistra: lista categorie -->
+  <div class="content-panel categories-list">
+    <div class="panel-header">
+      <h3>Le Tue Categorie</h3>
+    </div>
+    <div class="panel-body">
+      <ul>
+        @for (cat of categories; track cat.id) {
+          <li>{{ cat.name }}</li>
+        } @empty {
+          <li class="empty-state">Nessuna categoria trovata.</li>
+        }
+      </ul>
+    </div>
+  </div>
+
+  <!-- Colonna destra: form per aggiungere -->
+  <div class="content-panel add-category-form">
+    <div class="panel-header">
+      <h3>Aggiungi Nuova Categoria</h3>
+    </div>
+    <div class="panel-body">
+      <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="name">Nome Categoria</label>
+          <input type="text" id="name" formControlName="name" placeholder="Es. Manutenzione Auto">
+        </div>
+        
+        @if (errorMessage) {
+          <p class="error-message">{{ errorMessage }}</p>
+        }
+
+        <button type="submit" class="primary-button" [disabled]="categoryForm.invalid">
+          Aggiungi Categoria
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
