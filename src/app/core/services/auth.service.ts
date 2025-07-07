@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = 'https://e02a-2001-b07-ae5-5d6e-d8a7-7828-2873-d068.ngrok-free.app:8080/api/auth';
+  private apiUrl = 'https://e02a-2001-b07-ae5-5d6e-d8a7-7828-2873-d068.ngrok-free.app/api/auth';
   
   private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
   isLoggedIn$ = this.loggedIn.asObservable();
