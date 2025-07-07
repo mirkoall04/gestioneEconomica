@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   // L'URL è corretto
-  private apiUrl = 'https://9152-2001-b07-ae5-5d6e-d8a7-7828-2873-d068.ngrok-free.app/api/auth';
+  private apiUrl = 'https://gestionaleeconomicobe.onrender.com/api/auth';
 
   // Inizializza lo stato leggendo il localStorage una sola volta all'avvio
   private loggedIn = new BehaviorSubject<boolean>(!!localStorage.getItem('jwt_token'));
