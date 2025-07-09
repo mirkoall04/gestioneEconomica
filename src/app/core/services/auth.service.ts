@@ -16,6 +16,10 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
+  public isLoggedIn(): boolean {
+    return this.loggedIn.getValue();
+  }
+
   register(userData: any): Observable<{ token: string }> {
     return this.http.post<{ token: string }>(`${this.apiUrl}/register`, userData);
   }
