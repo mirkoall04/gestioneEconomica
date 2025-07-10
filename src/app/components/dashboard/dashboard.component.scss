@@ -1,13 +1,14 @@
+/* --- Stili Generali della Pagina --- */
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
-}
 
-.page-header h1 {
-  font-size: 1.8rem;
-  color: #2d3748;
+  h1 {
+    font-size: 1.8rem;
+    color: #2d3748;
+  }
 }
 
 .primary-button {
@@ -18,12 +19,13 @@
   border-radius: 6px;
   cursor: pointer;
   font-weight: bold;
+
+  &:hover {
+    background-color: #2b6cb0;
+  }
 }
 
-.primary-button:hover {
-  background-color: #2b6cb0;
-}
-
+/* --- Card delle Statistiche --- */
 .stats-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -36,28 +38,30 @@
   padding: 1.5rem;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+
+  h4 {
+    margin: 0 0 0.5rem 0;
+    color: #718096;
+    font-size: 0.9rem;
+  }
+
+  p.amount {
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin: 0;
+  }
 }
 
-.card h4 {
-  margin: 0 0 0.5rem 0;
-  color: #718096;
-  font-size: 0.9rem;
-}
-
-.card p.amount {
-  font-size: 1.75rem;
-  font-weight: bold;
-  margin: 0;
-}
-
+// Classi di colore generiche (usate nelle card)
 .positive {
-  color: #38a169;
+  color: #38a169; // Verde
 }
 
 .negative {
-  color: #e53e3e;
+  color: #e53e3e; // Rosso
 }
 
+/* --- Pannello Principale (Tabella) --- */
 .content-panel {
   background: white;
   border-radius: 8px;
@@ -67,17 +71,18 @@
 .panel-header {
   padding: 1rem 1.5rem;
   border-bottom: 1px solid #e2e8f0;
-}
 
-.panel-header h3 {
-  margin: 0;
-  color: #2d3748;
+  h3 {
+    margin: 0;
+    color: #2d3748;
+  }
 }
 
 .panel-body {
   padding: 1.5rem;
 }
 
+/* --- Stili della Tabella --- */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -95,18 +100,80 @@ th {
   text-transform: uppercase;
 }
 
-td .amount.income {
-  color: #38a169;
-}
-
-td .amount.expense {
-  color: #e53e3e;
-}
-
 .category-badge {
   background-color: #edf2f7;
   color: #4a5568;
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem 0.75rem;
   border-radius: 12px;
   font-size: 0.8rem;
+  display: inline-block;
+}
+
+/* 
+** SEZIONE RIVISTA E PULITA PER GLI STILI DELLE TRANSAZIONI **
+   Usiamo le classi 'income' e 'expense' che già applichi alla <tr> 
+   per stilizzare tutti gli elementi interni in modo coerente.
+*/
+
+// Stile per la riga di un'entrata
+tr.income {
+  // Coloriamo l'importo di verde
+  .amount {
+    color: #38a169;
+    font-weight: 500;
+  }
+}
+
+// Stile per la riga di un'uscita
+tr.expense {
+  // Coloriamo l'importo di rosso
+  .amount {
+    color: #e53e3e;
+    font-weight: 500;
+  }
+}
+
+/*
+** NUOVO: Stili per le etichette "Tipo" (ENTRATA/USCITA) **
+   Questi stili si applicano allo <span> che abbiamo aggiunto nel file HTML.
+*/
+.type-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.type-income {
+  background-color: rgba(56, 161, 105, 0.1); // Sfondo verde molto chiaro
+  color: #38a169; // Testo verde (lo stesso di .positive)
+}
+
+.type-expense {
+  background-color: rgba(229, 62, 62, 0.1); // Sfondo rosso molto chiaro
+  color: #e53e3e; // Testo rosso (lo stesso di .negative)
+}
+
+/* 
+   Le classi .transaction-income e .transaction-expense sono state rimosse
+   perché ridondanti. Ora gestiamo tutto con tr.income e tr.expense.
+*/
+
+th.sortable {
+  cursor: pointer;
+  user-select: none; // Evita che il testo venga selezionato al doppio click
+
+  &:hover {
+    background-color: #f7fafc; // Un leggero sfondo al passaggio del mouse
+  }
+
+  .sort-icon {
+    display: inline-block;
+    margin-left: 8px;
+    color: #a0aec0; // Un colore più tenue per l'icona
+    font-size: 0.9em; // Leggermente più piccola del testo
+  }
 }

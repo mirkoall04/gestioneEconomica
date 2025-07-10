@@ -19,6 +19,10 @@ export class DashboardComponent implements OnInit {
   summary: DashboardSummary | null = null;
   showAddTransactionForm: boolean = false;
 
+
+    sortDirection: 'asc' | 'desc' = 'desc'; // Inizia con il più recente (descending)
+
+
   constructor(
     private transactionService: TransactionService,
     private dashboardService: DashboardService,
@@ -43,11 +47,39 @@ export class DashboardComponent implements OnInit {
   // Metodo unico per caricare le transazioni
   loadTransactions(): void {
     this.transactionService.getTransactions().subscribe({
-      next: (data) => this.transactions = data,
+      next: (data) => {
+        this.transactions = data;
+        // Applica l'ordinamento iniziale non appena i dati arrivano
+        this.sortData(); 
+      },
       error: (err) => console.error('Errore nel caricare le transazioni', err)
     });
   }
   
+  onSort(): void {
+    // Inverti la direzione
+    this.sortDirection = this.sortDirection === 'desc' ? 'asc' : 'desc';
+    // Riordina i dati
+    this.sortData();
+  }
+
+  private sortData(): void {
+    if (!this.transactions) return;
+
+    this.transactions.sort((a, b) => {
+      const dateA = new Date(a.date).getTime();
+      const dateB = new Date(b.date).getTime();
+      
+      // Se la direzione è 'desc', ordina dal più recente al più vecchio
+      if (this.sortDirection === 'desc') {
+        return dateB - dateA;
+      } 
+      // Altrimenti, ordina dal più vecchio al più recente
+      else {
+        return dateA - dateB;
+      }
+    });
+  }
 
   // Metodo per mostrare/nascondere il form
   toggleAddTransactionForm(): void {

@@ -1,82 +1,161 @@
-<div class="page-header">
+<!-- 1. HEADER DELLA PAGINA CON IL PULSANTE PER DESKTOP -->
+<div class="d-flex justify-content-between align-items-center mb-4">
   <h1>Dashboard</h1>
-  <!-- Il pulsante ora apre sempre la modale -->
-  <button class="primary-button" (click)="openAddTransactionModal()">
+  <button class="fab d-md-none" (click)="openAddTransactionModal()" aria-label="Aggiungi Nuova Transazione">
+  +
+</button>
+  <!-- Pulsante per DESKTOP (visibile da 'md' in su) -->
+  <button class="btn btn-primary d-none d-md-block" (click)="openAddTransactionModal()">
     Aggiungi Transazione
   </button>
 </div>
+
+
 <!-- Sezione delle Card con le statistiche -->
-@if (summary) {
-  <div class="stats-cards">
-    <div class="card">
-      <h4>Saldo Attuale</h4>
-      <p class="amount" [ngClass]="summary.currentBalance >= 0 ? 'positive' : 'negative'">
-        {{ summary.currentBalance | currency:'EUR' }}
-      </p>
+<div class="row">
+  @if (summary) {
+    <!-- Card Saldo Attuale -->
+    <div class="col-md-6 col-xl-3 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h4 class="card-title text-muted">Saldo Attuale</h4>
+          <p class="amount" [ngClass]="summary.currentBalance >= 0 ? 'positive' : 'negative'">
+            {{ summary.currentBalance | currency:'EUR' }}
+          </p>
+        </div>
+      </div>
     </div>
-    <div class="card">
-      <h4>Entrate (Mese)</h4>
-      <p class="amount positive">
-        {{ summary.monthlyIncome | currency:'EUR' }}
-      </p>
-    </div>
-    <div class="card">
-      <h4>Uscite (Mese)</h4>
-      <p class="amount negative">
-        {{ summary.monthlyExpenses | currency:'EUR' }}
-      </p>
-    </div>
-    <div class="card">
-      <h4>Risparmio (Mese)</h4>
-      <p class="amount" [ngClass]="summary.savingsPercentage >= 0 ? 'positive' : 'negative'">
-        {{ summary.savingsPercentage }}%
-      </p>
-    </div>
-  </div>
-} @else {
-  <!-- Mostra un loader o uno scheletro mentre i dati caricano -->
-  <p>Caricamento dati...</p>
-}
 
+    <!-- Card Entrate del Mese -->
+    <div class="col-md-6 col-xl-3 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h4 class="card-title text-muted">Entrate (Mese)</h4>
+          <p class="amount positive">
+            {{ summary.monthlyIncome | currency:'EUR' }}
+          </p>
+        </div>
+      </div>
+    </div>
 
+    <!-- Card Uscite del Mese -->
+    <div class="col-md-6 col-xl-3 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h4 class="card-title text-muted">Uscite (Mese)</h4>
+          <p class="amount negative">
+            {{ summary.monthlyExpenses | currency:'EUR' }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card Risparmio del Mese -->
+    <div class="col-md-6 col-xl-3 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h4 class="card-title text-muted">Risparmio (Mese)</h4>
+          <p class="amount" [ngClass]="summary.savingsPercentage >= 0 ? 'positive' : 'negative'">
+            {{ summary.savingsPercentage }}%
+          </p>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <!-- Scheletro di caricamento -->
+    @for (item of [1, 2, 3, 4]; track item) {
+      <div class="col-md-6 col-xl-3 mb-3">
+        <div class="card h-100" aria-hidden="true">
+          <div class="card-body">
+            <h5 class="card-title placeholder-glow">
+              <span class="placeholder col-6"></span>
+            </h5>
+            <p class="card-text placeholder-glow">
+              <span class="placeholder col-8"></span>
+            </p>
+          </div>
+        </div>
+      </div>
+    }
+  }
+</div>
+
+<!-- Contenitore della modale (visibile solo quando showAddTransactionForm è true) -->
 @if (showAddTransactionForm) {
-  <app-add-transaction 
+  <app-add-transaction
     (transactionAdded)="onTransactionAdded()"
-    (close)="closeAddTransactionModal()">
+    (close)="closeAddTransactionModal()"
+  >
   </app-add-transaction>
 }
+
 <!-- Sezione della tabella delle transazioni -->
-<div class="content-panel">
-  <div class="panel-header">
-    <h3>Ultime Transazioni</h3>
+
+<!-- TABELLA PER DESKTOP (visibile da Large in su) -->
+<div class="content-panel d-none d-lg-block">
+  <div class="panel-header border-bottom p-3">
+    <h3 class="mb-0">Ultime Transazioni</h3>
   </div>
-  <div class="panel-body">
-    <table>
+  <div class="panel-body p-0">
+    <table class="table table-hover mb-0">
       <thead>
         <tr>
-          <th>Data</th>
+          <th (click)="onSort()" class="sortable" style="width: 15%;">
+            Data
+            <span class="sort-icon">
+              @if (sortDirection === 'desc') { ▼ } @else { ▲ }
+            </span>
+          </th>
           <th>Descrizione</th>
-          <th>Categoria</th>
-          <th>Importo</th>
+          <th style="width: 20%;">Categoria</th>
+          <th style="width: 15%;">Tipo</th>
+          <th class="text-end" style="width: 15%;">Importo</th>
         </tr>
       </thead>
       <tbody>
         @for (tx of transactions; track tx.id) {
-          <tr [ngClass]="tx.type === 'ENTRATA' ? 'income' : 'expense'">
+          <tr>
             <td>{{ tx.date | date:'dd/MM/yyyy' }}</td>
             <td>{{ tx.description }}</td>
+            <td><span class="category-badge">{{ tx.category.name }}</span></td>
             <td>
-              <span class="category-badge">{{ tx.category.name }}</span>
+              <span class="type-badge" [ngClass]="{'type-income': tx.type === 'ENTRATA', 'type-expense': tx.type === 'USCITA'}">
+                {{ tx.type }}
+              </span>
             </td>
-            <td class="amount">{{ tx.amount | currency:'EUR' }}</td>
+            <td class="amount text-end fw-bold" [ngClass]="tx.type === 'ENTRATA' ? 'positive' : 'negative'">
+              {{ tx.amount | currency:'EUR' }}
+            </td>
           </tr>
         } @empty {
-          <tr>
-            <td colspan="4">Nessuna transazione trovata.</td>
-          </tr>
+          <tr><td colspan="5" class="text-center p-4">Nessuna transazione trovata.</td></tr>
         }
       </tbody>
     </table>
-    <!-- Qui andrà la paginazione in futuro -->
   </div>
 </div>
+
+<!-- LISTA DI CARD PER MOBILE (visibile fino a Large) -->
+<div class="d-lg-none">
+  <h3 class="mb-3">Ultime Transazioni</h3>
+  @for (tx of transactions; track tx.id) {
+    <div class="card mb-3">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <p class="fw-bold mb-1">{{ tx.description }}</p>
+          <p class="fw-bold mb-1" [ngClass]="tx.type === 'ENTRATA' ? 'positive' : 'negative'">
+            {{ tx.amount | currency:'EUR' }}
+          </p>
+        </div>
+        <div class="d-flex justify-content-between text-muted small">
+          <span>{{ tx.date | date:'dd/MM/yyyy' }}</span>
+          <span>{{ tx.category.name }}</span>
+        </div>
+      </div>
+    </div>
+  } @empty {
+    <div class="card"><div class="card-body text-center">Nessuna transazione trovata.</div></div>
+  }
+</div>
+
+<!-- 2. FLOATING ACTION BUTTON (FAB) PER MOBILE -->

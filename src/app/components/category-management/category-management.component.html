@@ -2,43 +2,43 @@
   <h1>Gestione Categorie</h1>
 </div>
 
-<div class="layout-container">
+<div class="row">
   <!-- Colonna sinistra: lista categorie -->
-  <div class="content-panel categories-list">
-    <div class="panel-header">
-      <h3>Le Tue Categorie</h3>
-    </div>
-    <div class="panel-body">
-      <ul>
-        @for (cat of categories; track cat.id) {
-          <li>{{ cat.name }}</li>
-        } @empty {
-          <li class="empty-state">Nessuna categoria trovata.</li>
-        }
-      </ul>
+  <div class="col-md-7 mb-4">
+    <div class="content-panel h-100">
+      <div class="panel-header"><h3>Le Tue Categorie</h3></div>
+      <div class="panel-body">
+        <ul class="list-group list-group-flush">
+          @for (cat of categories; track cat.id) {
+            <li class="list-group-item">{{ cat.name }}</li>
+          } @empty {
+            <li class="list-group-item empty-state">Nessuna categoria trovata.</li>
+          }
+        </ul>
+      </div>
     </div>
   </div>
 
   <!-- Colonna destra: form per aggiungere -->
-  <div class="content-panel add-category-form">
-    <div class="panel-header">
-      <h3>Aggiungi Nuova Categoria</h3>
-    </div>
-    <div class="panel-body">
-      <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <label for="name">Nome Categoria</label>
-          <input type="text" id="name" formControlName="name" placeholder="Es. Manutenzione Auto">
-        </div>
-        
-        @if (errorMessage) {
-          <p class="error-message">{{ errorMessage }}</p>
-        }
+  <div class="col-md-5 mb-4">
+    <div class="content-panel h-100">
+      <div class="panel-header"><h3>Aggiungi Nuova Categoria</h3></div>
+      <div class="panel-body">
+        <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+          <div class="form-group mb-3">
+            <label for="name" class="form-label">Nome Categoria</label>
+            <input type="text" id="name" class="form-control" formControlName="name" placeholder="Es. Manutenzione Auto">
+          </div>
+          
+          @if (errorMessage) {
+            <div class="alert alert-danger">{{ errorMessage }}</div>
+          }
 
-        <button type="submit" class="primary-button" [disabled]="categoryForm.invalid">
-          Aggiungi Categoria
-        </button>
-      </form>
+          <button type="submit" class="btn btn-primary w-100" [disabled]="categoryForm.invalid">
+            Aggiungi Categoria
+          </button>
+        </form>
+      </div>
     </div>
   </div>
 </div>

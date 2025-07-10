@@ -1,22 +1,67 @@
 <div class="main-container">
-  <aside class="sidebar">
+
+  <!-- Overlay per chiudere la sidebar su mobile -->
+  <div class="sidebar-overlay" 
+       [class.active]="isSidebarOpen" 
+       (click)="toggleSidebar()">
+  </div>
+
+  <!-- Sidebar, con classe dinamica '.open' -->
+  <aside class="sidebar" [class.open]="isSidebarOpen">
     <div class="sidebar-header">
       <h3>Finanza Personale</h3>
     </div>
     <nav class="sidebar-nav">
       <ul>
-        <li><a routerLink="/app/dashboard" routerLinkActive="active"><i class="icon-dashboard"></i> Dashboard</a></li>
-        <li><a routerLink="/app/categories" routerLinkActive="active"><i class="icon-categories"></i> Categorie</a></li> <!-- NUOVA RIGA -->
-        <li><a routerLink="/app/reports" routerLinkActive="active"><i class="icon-reports"></i> Report</a></li>
+        <!-- Aggiunto (click) per chiudere la sidebar dopo la navigazione su mobile -->
+        <li><a routerLink="/app/dashboard" routerLinkActive="active" (click)="closeSidebarOnMobile()">
+          <i class="icon-dashboard"></i> Dashboard
+        </a></li>
+        <li><a routerLink="/app/categories" routerLinkActive="active" (click)="closeSidebarOnMobile()">
+          <i class="icon-categories"></i> Categorie
+        </a></li>
+        <li><a routerLink="/app/reports" routerLinkActive="active" (click)="closeSidebarOnMobile()">
+          <i class="icon-reports"></i> Report
+        </a></li>
       </ul>
     </nav>
     <div class="sidebar-footer">
-       <a routerLink="/app/settings" routerLinkActive="active"><i class="icon-settings"></i> Impostazioni</a>
-       <a (click)="logout()"><i class="icon-logout"></i> Logout</a>
+       <a routerLink="/app/settings" routerLinkActive="active" (click)="closeSidebarOnMobile()">
+        <i class="icon-settings"></i> Impostazioni
+       </a>
+       <a (click)="logout()">
+        <i class="icon-logout"></i> Logout
+       </a>
     </div>
   </aside>
 
+  <!-- Area dei Contenuti Principale -->
   <main class="content-area">
-    <router-outlet></router-outlet>
+    
+    <!-- Top Bar che appare solo su Mobile -->
+    <div class="mobile-top-bar">
+      <!-- Pulsante Hamburger per aprire la sidebar -->
+      <button class="hamburger-button" (click)="toggleSidebar()">
+        ☰ <!-- Codice HTML per l'icona hamburger -->
+      </button>
+
+      <!-- Titolo dinamico della pagina -->
+      <h1 class="mobile-title">
+        <span *ngIf="isDashboardActive()">Dashboard</span>
+        <span *ngIf="isCategoriesActive()">Categorie</span>
+        <span *ngIf="isReportsActive()">Report</span>
+        <span *ngIf="isSettingsActive()">Impostazioni</span>
+      </h1>
+      
+      <!-- Pulsante '+' (visibile solo sulla Dashboard) -->
+      <button *ngIf="isDashboardActive()" class="add-button-mobile" (click)="onAddTransactionClick()">
+        +
+      </button>
+      <!-- Placeholder per bilanciare il layout quando il '+' non c'è -->
+      <div *ngIf="!isDashboardActive()" class="button-placeholder"></div>
+    </div>
+
+    <!-- Il router carica qui i componenti delle pagine -->
+    <router-outlet (activate)="onOutletActivated($event)"></router-outlet>
   </main>
 </div>

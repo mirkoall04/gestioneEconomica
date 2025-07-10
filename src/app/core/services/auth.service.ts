@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
-
+import { url } from '../models/url.model';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  // L'URL è corretto
-  private apiUrl = 'https://gestionaleeconomicobe.onrender.com/api/auth';
+  // private apiUrl = 'https://gestionaleeconomicobe.onrender.com/api/auth';
+  private apiUrl= url+'api/auth'
 
   // Inizializza lo stato leggendo il localStorage una sola volta all'avvio
   private loggedIn = new BehaviorSubject<boolean>(!!localStorage.getItem('jwt_token'));
